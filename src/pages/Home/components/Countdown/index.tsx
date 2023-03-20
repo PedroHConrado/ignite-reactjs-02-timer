@@ -7,7 +7,7 @@ export function Countdown() {
   const {
     activeCycle,
     activeCycleId,
-    markCurrentCyclesAsFinished,
+    markCurrentCycleAsFinished,
     amountSecondsPassed,
     setSecondsPassed,
   } = useContext(CyclesContext)
@@ -21,10 +21,12 @@ export function Countdown() {
       interval = setInterval(() => {
         const secondsDifference = differenceInSeconds(
           new Date(),
-          activeCycle.startDate,
+          new Date(activeCycle.startDate),
         )
+
         if (secondsDifference >= totalSeconds) {
-          markCurrentCyclesAsFinished()
+          markCurrentCycleAsFinished()
+
           setSecondsPassed(totalSeconds)
           clearInterval(interval)
         } else {
@@ -40,8 +42,8 @@ export function Countdown() {
     activeCycle,
     totalSeconds,
     activeCycleId,
-    markCurrentCyclesAsFinished,
     setSecondsPassed,
+    markCurrentCycleAsFinished,
   ])
 
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
@@ -54,7 +56,7 @@ export function Countdown() {
 
   useEffect(() => {
     if (activeCycle) {
-      document.title = `${minutes}: ${seconds}`
+      document.title = `${minutes}:${seconds}`
     }
   }, [minutes, seconds, activeCycle])
 
